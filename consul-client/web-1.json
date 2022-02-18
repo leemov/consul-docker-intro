@@ -1,0 +1,25 @@
+{
+  "node_name": "consul-client-1",
+  "server": false,
+  "datacenter": "dc1",
+  "data_dir": "/tmp/consul",
+  "log_level": "INFO",
+  "retry_join": ["consul-server"],
+  "service": {
+    "id": "web-1",
+    "name": "web-1",
+    "tags": ["web-1"],
+    "address": "web-1",
+    "port": 8090,
+    "check": {
+      "id": "web-1",
+      "name": "Consul web-1 TCP on port 8090",
+      "tcp": "web-1:8090/hello",
+      "interval": "10s",
+      "timeout": "1s"
+    }
+  },
+  "addresses": {
+    "dns": "0.0.0.0"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "node_name": "consul-client-3",
+  "server": false,
+  "datacenter": "dc1",
+  "data_dir": "/tmp/consul",
+  "log_level": "INFO",
+  "retry_join": ["consul-server"],
+  "service": {
+    "id": "web-2",
+    "name": "web-2",
+    "tags": ["web-2"],
+    "address": "web-3",
+    "port": 8888,
+    "check": {
+      "id": "web-3",
+      "name": "Consul web-3 TCP on port 8888",
+      "tcp": "web-3:8888/hello",
+      "interval": "10s",
+      "timeout": "1s"
+    }
+  },
+  "addresses": {
+    "dns": "0.0.0.0"
+  }
+}

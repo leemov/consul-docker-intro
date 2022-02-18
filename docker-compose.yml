@@ -1,0 +1,62 @@
+version: "3.8"
+services:
+  web-1: # web service
+    build: ./docker/web
+    ports: 
+      - "8090:8090"
+    networks:
+      - consul-demo
+    command: "/bin/sh script.sh"
+  web-2: # web service
+    build: ./docker/web2
+    networks:
+      - consul-demo
+    links:
+      - consul-server
+  web-3: # web service
+    build: ./docker/web2
+    networks:
+      - consul-demo
+    links:
+      - consul-server
+  consul-server: # consul server
+    build: ./docker/consul-server
+    ports:
+      - "8500:8500" # ui
+      - "8300:8300" # gossip
+      - "8400:8400" # ???
+      - "8600:8600/udp" # dns
+    command: "./script.sh config.json"
+    networks:
+      - consul-demo
+    cap_add:
+      - NET_ADMIN
+  consul-client-1: # consul client 
+    build: ./docker/consul-client
+    command: "./script.sh web-1.json"
+    networks:
+      - consul-demo
+    depends_on:
+      - consul-server
+    cap_add:
+      - NET_ADMIN
+  consul-client-2: # consul client 
+    build: ./docker/consul-client
+    command: "./script.sh web-2.json"
+    networks:
+      - consul-demo
+    depends_on:
+      - consul-server
+    cap_add:
+      - NET_ADMIN
+  consul-client-3: # consul client 
+    build: ./docker/consul-client
+    command: "./script.sh web-3.json"
+    networks:
+      - consul-demo
+    depends_on:
+      - consul-server
+    cap_add:
+      - NET_ADMIN
+networks:
+  consul-demo:

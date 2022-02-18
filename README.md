@@ -29,6 +29,10 @@ https://docs.docker.com/get-docker/
 ```
 > docker compose up
 ```
+to shut down the cluster. run this command 
+```
+> docker compose down
+```
 
 ## Contributing
 Pull requests are welcome.
